@@ -29,6 +29,7 @@ class UsersController {
     const database = await sqliteConnection(); // isso é para fazer minha conexão com o banco de dados
 
     const user = await database.get("SELECT * FROM users WHERE id = (?)", [id]); // faço a busca pelo usuário, seleciono o usuário pelo id
+    
     if(!user) { // If para o caso em que o usuário não existe. Pq se tiver somente a linha acima, ele não vai retornar nada para a constante "users". E com esse if, retorna a mensagem de erro a seguir.
       throw new AppError("Usuário não encontrado."); // lanço essa exceção com o AppError
     }

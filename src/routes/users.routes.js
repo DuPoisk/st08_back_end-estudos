@@ -1,13 +1,9 @@
-const {Router} = require("express");
+const { Router } = require("express");
 
 const UsersController = require("../controllers/UsersController");
 
 const userRoutes = Router();
 
-/*function myMiddleware(request, response, next){
-  next()
-}
-*/
 const usersController = new UsersController(); //a constante usersController é uma instância do UsersController
 
 userRoutes.post("/", usersController.create);
