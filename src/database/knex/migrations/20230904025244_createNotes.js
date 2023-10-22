@@ -1,7 +1,7 @@
 
 exports.up = knex => knex.schema.createTable("notes", table => {
   table.increments("id");
-  table.text("title"); //text é o tipo texto
+  table.text("title"); //text é para indicar que o title é do tipo texto
   table.text("description");
   table.integer("user_id").references("id").inTable("users"); // aqui estou criando um campo do tipo inteiro na minha tabela, 
   //chamado "user_id" e ele faz uma referência ao "id" que existe dentro da tabela "users". 

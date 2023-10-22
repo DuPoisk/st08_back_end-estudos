@@ -1,5 +1,5 @@
 
-exports.up = knex => knex.schema.createTable("tags", table => {
+exports.up = knex => knex.schema.createTable("tags", table => { /* tags facilitam o uso de filtros*/
   table.increments("id");
   table.text("name").notNullable(); //text é o tipo texto / notNullable significa que não é para aceitar valores nulos
   table.integer("note_id").references("id").inTable("notes").onDelete("CASCADE"); // significa que se eu deletar a nota a qual a tag estiver vinculada,

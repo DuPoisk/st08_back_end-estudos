@@ -1,1 +1,5 @@
 node_modules
+
+
+npm start para abrir a porta localhost 3333
+npm run dev para atualizar " automaticamente"
