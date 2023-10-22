@@ -2,8 +2,8 @@ const knex = require("../database/knex"); // importando o knex, acessando o inde
 
 class NotesController{
  async create(request, response){ // async create recebe uma requisição e uma resposta
-  const { title, description, tags, links } = request.body; // estou desestruturando essas coisas dentro dos {} e pegando a requisição do Body.
-  const {user_id} = request.params;
+  const { title, description, tags, links } = request.body; // estou desestruturando essas coisas dentro dos {} e pegando a requisição do Body LÁ DO INSOMNIA.
+  const {user_id} = request.params; /* PEGO O ID DO USUÁRIO QUE ESTÁ APARECENDO NO LINK */
 
   //CADASTRANDO NOTAS
   const [note_id] = await knex("notes").insert({ // na tabela notes, insiro o título, descrição, id do usuário    
@@ -37,6 +37,7 @@ class NotesController{
   response.json();
  }
 
+ // PARA MOSTRAR/ EXIBIR AS NOTAS
  async show(request, response) {
   const { id } = request.params;
 
@@ -45,13 +46,21 @@ class NotesController{
   const tags = await knex ("tags").where({note_id: id}).orderBy("name");
   const links = await knex("links").where({note_id: id}).orderBy("created_at");
 
-  return response.json({
-    ...note,
+  return response.json({ /*resposta em forma de objeto */
+    ...note, /*despejando todos os detalhes das notas */
     tags,
     links
   });
  }
 
+ // PARA DELETAR 
+ async delete (request, response){
+  const { id } = request.params;
+
+  await knex("notes").where({id}).delete();
+
+  return response.json();
+ }
 }
 
 module.exports = NotesController;
