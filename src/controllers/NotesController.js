@@ -64,8 +64,10 @@ class NotesController{
 
  //PARA LISTAR AS NOTAS
  async index(request, response) {
-  const { user_id} = request.query;
-  const notes = await knex("notes").where({user_id}).orderBy("title");
+  const { title, user_id} = request.query;
+  const notes = await knex("notes").where({user_id}).whereLike("title", `%${title}%`).orderBy("title");
+  // os %% indicam para verificar se existe a palavra "title"(é o campo em que eu quero faer a consulta) tanto antes, quanto depois da variável.
+  // Como na parte de query do insomnia eu dei o valor de Nodejs ao title, o whereLike vai buscar pela palavra Nodejs em qualquer lugar dentro do title
 
   return response.json(notes);
  }
