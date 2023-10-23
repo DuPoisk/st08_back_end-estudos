@@ -64,11 +64,24 @@ class NotesController{
 
  //PARA LISTAR AS NOTAS
  async index(request, response) {
-  const { title, user_id} = request.query;
-  const notes = await knex("notes").where({user_id}).whereLike("title", `%${title}%`).orderBy("title");
-  // os %% indicam para verificar se existe a palavra "title"(é o campo em que eu quero faer a consulta) tanto antes, quanto depois da variável.
-  // Como na parte de query do insomnia eu dei o valor de Nodejs ao title, o whereLike vai buscar pela palavra Nodejs em qualquer lugar dentro do title
+  const { title, user_id, tags} = request.query;
+  let notes;
 
+  if (tags){
+    const filterTags = tags.split(',').map(tag => tag.trim());  // .split serve para transofmrar de texto simples para um vetor, usando a vírgula (',') como separador
+    
+    notes = await knex("tags")
+      .select(["notes.id", "notes.title", "notes.user_id"]) // array com quais campos quero selecionar de cada uma das tabelas , para isso, escrevo nome da tabela, ponto ( . ), nome do campo
+      .where("notes.user_id", user_id)//para filtrar baseado no id do usuário. Filtrar as tags que sejam de determinado id do usuário
+      .whereLike("notes.title", `%${title}%`) // 
+      .whereIn("name", filterTags) //whereIn para analisar com base na tag ( nome da tag)
+      .innerJoin("notes", "notes.id", "tags.note_id") // indico a tabela que quero conectar (notes), os campos delas que quero conectar (notes.id da tabela notes e tag.notes_id da tabela tags)
+      .orderBy("notes.title")// para colocar o título em ordem alfabética
+  } else{
+    notes = await knex("notes").where({user_id}).whereLike("title", `%${title}%`).orderBy("title");
+      // os %% indicam para verificar se existe a palavra "title"(é o campo em que eu quero faer a consulta) tanto antes, quanto depois da variável.
+      // Como na parte de query do insomnia eu dei o valor de Nodejs ao title, o whereLike vai buscar pela palavra Nodejs em qualquer lugar dentro do title
+  }
   return response.json(notes);
  }
 }
