@@ -82,7 +82,20 @@ class NotesController{
       // os %% indicam para verificar se existe a palavra "title"(é o campo em que eu quero faer a consulta) tanto antes, quanto depois da variável.
       // Como na parte de query do insomnia eu dei o valor de Nodejs ao title, o whereLike vai buscar pela palavra Nodejs em qualquer lugar dentro do title
   }
-  return response.json(notes);
+
+  //PARA VINCULAR AS TAGS quando der um send no index (index do insomnia, para filtrar as infos)
+  // ver aulas do st08 Query builder> aula Maps e Filter, aula Obtendo tags da nota
+  const userTags = await knex("tags").where({user_id});
+  const notesWithTags = notes.map(note => {
+    const noteTags = userTags.filter(tag => tag.note_id === note.id);
+
+    return{
+      ...note,
+      tags: noteTags
+    }
+  });
+
+  return response.json(notesWithTags);
  }
 }
 
