@@ -34,7 +34,7 @@ class NotesController{
 
   await knex("tags").insert(tagsInsert); // insiro na tabela tags o tagsInsert
 
-  response.json();
+  return response.json(); // vou manter um return em todas as respostas para garantir que o código pare quando chegar aqui
  }
 
  // PARA MOSTRAR/ EXIBIR AS NOTAS
