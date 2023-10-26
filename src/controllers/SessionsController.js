@@ -6,3 +6,5 @@ class SessionsController {
 }
 
 module.exports = SessionsController;
+
+//teste
