@@ -3,7 +3,8 @@ const knex = require("../database/knex"); // importando o knex, acessando o inde
 class NotesController{
  async create(request, response){ // async create recebe uma requisição e uma resposta
   const { title, description, tags, links } = request.body; // estou desestruturando essas coisas dentro dos {} e pegando a requisição do Body LÁ DO INSOMNIA.
-  const {user_id} = request.params; /* PEGO O ID DO USUÁRIO QUE ESTÁ APARECENDO NO LINK */
+  //const {user_id} = request.params; /* PEGO O ID DO USUÁRIO QUE ESTÁ APARECENDO NO LINK */
+  const user_id = request.user.id;
 
   //CADASTRANDO NOTAS
   const [note_id] = await knex("notes").insert({ // na tabela notes, insiro o título, descrição, id do usuário    
@@ -64,7 +65,9 @@ class NotesController{
 
  //PARA LISTAR AS NOTAS
  async index(request, response) {
-  const { title, user_id, tags} = request.query;
+  const { title, tags} = request.query;
+  const user_id = request.user.id;
+
   let notes;
 
   if (tags){

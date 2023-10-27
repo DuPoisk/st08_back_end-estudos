@@ -24,11 +24,11 @@ class UsersController {
 
   async update (request, response) {// FUNCIONALIDADE DE ATUALIAÇÃO DO USUÁRIO
     const {name, email, password, old_password} = request.body; //infos que quero pegar 
-    const {id} = request.params; //infos que quero pegar 
+    const user_id = request.user.id; //infos que quero pegar. O id dentro do usuário, que está dentro da requisição
 
     const database = await sqliteConnection(); // isso é para fazer minha conexão com o banco de dados
 
-    const user = await database.get("SELECT * FROM users WHERE id = (?)", [id]); // faço a busca pelo usuário, seleciono o usuário pelo id
+    const user = await database.get("SELECT * FROM users WHERE id = (?)", [user_id]); // faço a busca pelo usuário, seleciono o usuário pelo id
     
     if(!user) { // If para o caso em que o usuário não existe. Pq se tiver somente a linha acima, ele não vai retornar nada para a constante "users". E com esse if, retorna a mensagem de erro a seguir.
       throw new AppError("Usuário não encontrado."); // lanço essa exceção com o AppError
@@ -63,7 +63,7 @@ class UsersController {
       password = ?,
       updated_at = DATETIME('now')
       WHERE id = ?`,
-      [user.name, user.email, user.password, id]
+      [user.name, user.email, user.password, user_id]
     ); /* UPDATE users SET  significa: atualize na tabela de usuário e defina os seguintes valroes*/
     //uptated_at vai atualizar através de uma função do banco de dados, chamada DATETIME e vai receber o valor 'now', ou seja a data e hora atuais. Por isso não preciso mencionar ele dentro do Arrow, pois ele estará sendo gerado ali fora já
 

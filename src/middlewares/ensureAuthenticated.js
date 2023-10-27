@@ -9,16 +9,17 @@ function ensureAuthenticated(request, response, next){
     throw new AppError("JWT Token não informado", 401); // o usuário não tem o jwt nesse caso
   }
 
-  const [, token]  = authHeader.split(" "); // split pega a string e separa ela passando-a para um vetor
+  const [, token]  = authHeader.split(" "); // split pega a string e separa ela passando-a para um vetor. Bare xxxtokenxxx
 
   try{
     const {sub: user_id} = verify(token, authConfig.jwt.secret); // rever aula "st10 middleware de autenticação" minuto 06:08
+    
     request.user ={
       id: Number(user_id), // number tranforma novamente para número o que antes lá em SessionController tinha sido transformado em string
     };
 
     return next();
-  }catch {
+  } catch {
     throw new AppError("JWT Token inválido", 401); // o usuário tem um jwt, porém inválido
 
   }
