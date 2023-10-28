@@ -5,7 +5,7 @@ const multer = require("multer");
 const crypto = require("crypto"); // usarei crypto para criar um hash
 
 const TMP_FOLDER = path.resolve(__dirname, "..", "..", "tmp"); // endereço (temporário) onde a imagem chega
-const UPLOADS_FOLDER = path.resolve(__dirname, "uploads"); // endereço onde a imagem ficará de fato
+const UPLOADS_FOLDER = path.resolve(TMP_FOLDER, "uploads"); // endereço onde a imagem ficará de fato
 
 const MULTER = {
   storage: multer.diskStorage({
