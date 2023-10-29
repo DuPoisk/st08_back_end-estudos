@@ -6,10 +6,17 @@ const express = require("express");
 
 const routes = require("./routes") /* quando não especifico a rota, ele puxa automaticamente o index, ou seja, é a mesma coisa que require("./routes/index.js")*/
 
+const uploadConfig = require("./configs/upload");
+
+const cors = require("cors");
+
 migrationsRun();
 
 const app = express();
+app.use(cors());
 app.use(express.json()); // diz qual o formato que quero que mostre o resultado da minha requisção
+
+app.use("/files", express.static(uploadConfig.UPLOADS_FOLDER)); //static é para servir aquivos estáticos. No caso, essa linha refere-se à imagem do avatar
 
 app.use(routes); /* AS ROTAS ESTÃO AQUI!*/
 
