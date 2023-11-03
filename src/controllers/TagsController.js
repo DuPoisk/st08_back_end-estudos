@@ -7,7 +7,7 @@ class TagsController{
     
     const tags = await knex("tags") //buscando pelas tags, propriamente ditas
       .where({user_id}) // mesma coisa que .where({user_id: user_id}) já que os nomes são iguais, apesar de referentes a coisas em lugares diferentes, pois um é o nome do campo na tabela e outro é a variável daqui
-     .groupBy("name")  // groupBy serve para agrupar pelos "nomes" e remover os "nomes" duplicados
+      .groupBy("name")  // groupBy serve para agrupar pelos "nomes" e remover os "nomes" duplicados
     
       return response.json(tags);
   } 

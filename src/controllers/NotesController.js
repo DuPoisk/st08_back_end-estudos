@@ -79,6 +79,7 @@ class NotesController{
       .whereLike("notes.title", `%${title}%`) // 
       .whereIn("name", filterTags) //whereIn para analisar com base na tag ( nome da tag)
       .innerJoin("notes", "notes.id", "tags.note_id") // indico a tabela que quero conectar (notes), os campos delas que quero conectar (notes.id da tabela notes e tag.notes_id da tabela tags)
+      .groupBy("notes.id")
       .orderBy("notes.title")// para colocar o título em ordem alfabética
   } else{
     notes = await knex("notes").where({user_id}).whereLike("title", `%${title}%`).orderBy("title");
