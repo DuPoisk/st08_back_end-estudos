@@ -4,7 +4,7 @@ const sqliteConnection = require("../database/sqlite");
 class UserRepository {
   async findByEmail(email){
     const database = await sqliteConnection();  // coloco o async acima, para o await daqui ficar disponível para mim
-    const user = await database.get("SELECT * FROM users WHERE email =(?)", [email]); // get pq quero buscar informações. // A niterrogação será substituída pela variável que estiver em [email]
+    const user = await database.get("SELECT * FROM users WHERE email =(?)", [email]); //vai checar pelo email se o usuário existe// get pq quero buscar informações. // A niterrogação será substituída pela variável que estiver em [email]
 
     return user;
   }

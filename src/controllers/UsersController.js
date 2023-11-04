@@ -1,13 +1,13 @@
 const {hash, compare} = require("bcryptjs"); // para a criptografia
 const AppError = require("../utils/AppError");
 const sqliteConnection = require("../database/sqlite");
+const UserRepository =require("../repositories/UserRepository");
 
 class UsersController { 
   async create(request, response) {/* não preciso deixar explícito que é uma função pois a classe já sabe*/
     const {name, email, password} = request.body;
-
-    const database = await sqliteConnection();  // coloco o async acima, para o await daqui ficar disponível para mim
-    const checkUSerExists = await database.get("SELECT * FROM users WHERE email =(?)", [email]); // get pq quero buscar informações. // A niterrogação será substituída pela variável que estiver em [email]
+    const userRepository = new UserRepository();// instanciando o UserRepository, porque ele é uma classe      
+    const checkUSerExists = await userRepository.findByEmail(email); // coloco o async acima, para o await daqui ficar disponível para mim
   
     if (checkUSerExists){
       throw new AppError("Este e-mail já está em uso.");
@@ -15,9 +15,7 @@ class UsersController {
 
     const hashedPassword = await hash(password, 8); // os dois parameros dentro dos parenteses são: tipo de dado, e fator de complexidade
 
-    await database.run("INSERT INTO users (name, email,password) VALUES (?, ?, ?)",
-    [name, email, hashedPassword]
-    );
+    await userRepository.create({name, email, password: hashedPassword});
 
     return response.status(201).json();
   } 
