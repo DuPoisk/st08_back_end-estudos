@@ -1,4 +1,4 @@
-const {hash, compare} = require("bcryptjs"); // para a criptografia
+const {hash} = require("bcryptjs"); // para a criptografia
 const AppError = require("../utils/AppError");
 
 class UserCreateService {
@@ -15,7 +15,9 @@ class UserCreateService {
 
     const hashedPassword = await hash(password, 8); // os dois parameros dentro dos parenteses são: tipo de dado, e fator de complexidade
 
-    await this.userRepository.create({name, email, password: hashedPassword});
+    const userCreated = await this.userRepository.create({name, email, password: hashedPassword});
+
+    return userCreated;
 
   }
 }
