@@ -17,18 +17,5 @@ describe("UserCreateService", () => {
   
     expect(userCreated).toHaveProperty("id");
   }); 
-
-  it("another test", () => {
-    expect(1).toBe(1);
-  });
 })
 
-describe("NotesCreateService", () => {
-  it("create notes", async () => {
-    expect(1).toBe(1);
-  })
-})
-
-
-// aqui é um exemplo de 2 describes com seus devidos testes. O ideia é ter 1 describe por arquivo, apenas. 
-  // teste colocar expect(1).toBe(2); na llinha 28 ou na linha 22 para ver como o erro é acusado no terminal.
