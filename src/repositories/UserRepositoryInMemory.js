@@ -3,7 +3,7 @@ class UserRepositoryInMemory{
 
   async create({email, name, password}) {
     const user = {
-      id: Math.flood(Math.random() * 1000) + 1, // para gerar números aleatórios
+      id: Math.floor(Math.random() * 1000) + 1, // para gerar números aleatórios
       email, 
       name,
       password
@@ -14,7 +14,7 @@ class UserRepositoryInMemory{
     return user;
   }
 
-  async findByMail(email) {
+  async findByEmail(email) {
     return this.users.find(user => user.email === email);
   }
 }
